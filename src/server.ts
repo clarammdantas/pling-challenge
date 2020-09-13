@@ -1,5 +1,6 @@
 import { app } from "./app.ts";
 import "../db.ts";
+import "./models/address.ts";
 
 const PORT = process.env.PORT || 3000;
 
