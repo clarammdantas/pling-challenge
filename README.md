@@ -5,6 +5,7 @@ Draft:
 - We are using express framework
 - We are using mongoose
 - Say why we choose express and mongoose.
+- We use esm package to allow nodejs to use emacs imports.
 
 How to run the Project
 
@@ -18,4 +19,4 @@ which turns off all rules that are unnecessary or conflicts with prettier in esl
 
 
 Deployment:
-- git push heroku deploy:main
+- git push heroku deploy:main / git push heroku master
