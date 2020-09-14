@@ -1,21 +1,36 @@
 import express from 'express';
+import morgan from 'morgan';
 
 class Application {
     app: express.Application;
-    port: Number;
 
     constructor() {
         this.app = express();
-        this.port = parseInt(<string>process.env.PORT, 10) || 3000;
+        this.settings();
+        this.middlewares();
+        this.routes();
+    }
+
+    settings() {
+        this.app.set('port', process.env.PORT || 3000);
+    }
+
+    middlewares() {
+        // HTTP request logger.
+        this.app.use(morgan('dev'));
+    }
+
+    routes() {
+
     }
 
     start() {
-        this.app.listen(this.port, (err?: Error) => {
+        this.app.listen(this.app.get('port'), (err?: Error) => {
             if (err) {
                 return console.log("Server can't run due to: ", err);
             }
 
-            console.log("Server running on port: " + this.port);
+            console.log("Server running on port: " + this.app.get('port'));
         });
     }
 }
