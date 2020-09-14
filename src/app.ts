@@ -1,9 +1,23 @@
-"use strict";
+import express from 'express';
 
-import express from "express";
+class Application {
+    app: express.Application;
+    port: Number;
 
-export const app = express();
+    constructor() {
+        this.app = express();
+        this.port = parseInt(<string>process.env.PORT, 10) || 3000;
+    }
 
-app.get("/get_names", (req, res, next) => {
-    res.json(["Guinho", "Amelia"]);
-});
+    start() {
+        this.app.listen(this.port, (err?: Error) => {
+            if (err) {
+                return console.log("Server can't run due to: ", err);
+            }
+
+            console.log("Server running on port: " + this.port);
+        });
+    }
+}
+
+export default Application;

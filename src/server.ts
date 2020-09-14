@@ -1,13 +1,24 @@
-import { app } from "./app.ts";
-import "../db.ts";
-import "./models/address.ts";
+import App from './app';
+import DataBase from './database';
 
-const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, (err) => {
-    if (err) {
-        return console.log(err);
-    }
+const db = new DataBase();
+db.connect();
 
-    console.log("Listening on port: " + PORT);
-});
+const app = new App();
+app.start();
+
+
+// import { app } from "./app";
+// import "../db";
+// import "./models/address";
+//
+// const PORT = process.env.PORT || 3000;
+//
+// app.listen(PORT, (err) => {
+//     if (err) {
+//         return console.log(err);
+//     }
+//
+//     console.log("Listening on port: " + PORT);
+// });
