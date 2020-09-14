@@ -4,7 +4,8 @@
   "description": "This is part of the Pling's hiring process.",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node src/server.ts",
+    "dev": "ts-node src/server.ts",
+    "start": "node dist/server.js",
     "lint": "eslint . --ext .ts",
     "clean": "rimraf ./dist"
   },
