@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const morgan_1 = __importDefault(require("morgan"));
+const addressRoutes_1 = __importDefault(require("./routes/addressRoutes"));
 class Application {
     constructor() {
         this.app = express_1.default();
@@ -18,8 +19,11 @@ class Application {
     middlewares() {
         // HTTP request logger.
         this.app.use(morgan_1.default('dev'));
+        this.app.use(express_1.default.json());
+        this.app.use(express_1.default.urlencoded({ extended: false }));
     }
     routes() {
+        this.app.use('/address', addressRoutes_1.default);
     }
     start() {
         this.app.listen(this.app.get('port'), (err) => {
