@@ -1,6 +1,8 @@
 import express from 'express';
 import morgan from 'morgan';
 
+import routerAddress from './routes/addressRoutes';
+
 class Application {
     app: express.Application;
 
@@ -18,10 +20,12 @@ class Application {
     middlewares() {
         // HTTP request logger.
         this.app.use(morgan('dev'));
+        this.app.use(express.json());
+        this.app.use(express.urlencoded({ extended: false }));
     }
 
     routes() {
-
+        this.app.use('/address', routerAddress);
     }
 
     start() {
