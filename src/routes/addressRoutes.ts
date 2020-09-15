@@ -40,4 +40,16 @@ addressRouter.route('/update/:addressId')
         }
     });
 
+addressRouter.route('/get/:addressId')
+    .get(async (req: Request, res: Response) => {
+        try {
+            const { addressId } = req.params;
+            const address = await addressService.getAddress(addressId);
+
+            res.status(200).send(address);
+        } catch (err) {
+            res.status(500).send(err);
+        }
+    });
+
 export default addressRouter;

@@ -55,6 +55,16 @@ class AddressService {
             throw new Error(`Error while updating address with id ${addressId}. ${err}`);
         }
     }
+
+    async getAddress(addressId: string) {
+        try {
+            const address = await Address.findById(addressId);
+
+            return address;
+        } catch (err) {
+            throw new Error(`Error while trying to get Address obj. with id: ${addressId}`);
+        }
+    }
 }
 
 const addressService = AddressService.getInstance();
