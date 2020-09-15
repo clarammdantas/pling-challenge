@@ -1,5 +1,8 @@
+// Models
 import Address from '../models/address';
-import AddressModel from '../interfaces/IAddress';
+
+// Types
+import AddressModel, { AddressUpdate } from '../interfaces/IAddress';
 
 class AddressService {
     private static instance: AddressService;
@@ -34,6 +37,22 @@ class AddressService {
             return address;
         } catch (err) {
             throw new Error(`Error while tying to create an Address obj. Details: ${err}`);
+        }
+    }
+
+    async editAddress(addressId: string, attrsToUpdate: AddressUpdate) {
+        try {
+            const address = await Address.findByIdAndUpdate(addressId, attrsToUpdate, function(err, result) {
+                if (err) {
+                    return new Error(`Error while updating address with id ${addressId}. Error: ${err}`);
+                } else {
+                    return result;
+                }
+            });
+
+            return address;
+        } catch (err) {
+            throw new Error(`Error while updating address with id ${addressId}. ${err}`);
         }
     }
 }
