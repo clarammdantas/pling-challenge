@@ -72,6 +72,7 @@ const PatientSchema = new Schema({
     records: {
         type: [Schema.Types.ObjectId],
         required: false,
+        selected: false,
         ref: 'PatientRecord'
     }
 });

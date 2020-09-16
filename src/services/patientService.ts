@@ -72,6 +72,19 @@ class PatientService {
 
         }
     }
+
+    async getPatientByCPF(cpf: string) {
+        try {
+            const standardCPF = cpf.replace(/\D/g, '');
+            const patient = await Patient.find({cpf: standardCPF})
+                                         .select('+cpf +cellNumber +records')
+                                         .exec();
+
+            return patient;
+        } catch {
+            throw new Error(`A patient with CPF ${cpf} wasn't found.`);
+        }
+    }
 }
 
 const patientService = PatientService.getInstance();
