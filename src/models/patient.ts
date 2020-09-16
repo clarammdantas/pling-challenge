@@ -1,10 +1,9 @@
 import { Schema, Document, model } from 'mongoose';
-
 import Address from './address';
 
 const PatientSchema = new Schema({
     name: {
-        type: string,
+        type: String,
         required: true,
         validate: {
             validator: function(v: string): boolean {
@@ -27,6 +26,7 @@ const PatientSchema = new Schema({
     cpf: {
         type: String,
         required: true,
+        unique: true,
         select: false,  // This is for security reasons to prevent selecting objects
                         // with sensitive info, like someone's CPF. So you have to
                         // explicitly ask for this attribute.
@@ -76,4 +76,24 @@ enum Gender {
     Male = 2
 }
 
-export default model('Patient', PatientSchema);
+PatientSchema.methods.getGender = function () {
+    return this.gender > 0 ? 'Male' : 'Female';
+}
+
+interface IPatientSchema {
+    name: string,
+    address: Schema.Types.ObjectId,
+    age: number,
+    cpf: string,
+    sex: Gender,
+    prefession: string,
+    cellNumber: string
+}
+
+interface IPatientBase extends IPatientSchema {
+    getGender(): string;  // These interfaces are defined here instead of ../interfaces
+                          // to avoid circular dependencies as this interface needs
+                          // the getGender method that needs PatientSchema.
+}
+
+export default model<IPatientBase & Document>('Patient', PatientSchema);

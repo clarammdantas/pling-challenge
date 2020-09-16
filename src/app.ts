@@ -1,7 +1,8 @@
 import express from 'express';
 import morgan from 'morgan';
 
-import routerAddress from './routes/addressRoutes';
+import addressRouter from './routes/addressRoutes';
+import patientRouter from './routes/patientRoutes';
 
 class Application {
     app: express.Application;
@@ -25,7 +26,8 @@ class Application {
     }
 
     routes() {
-        this.app.use('/address', routerAddress);
+        this.app.use('/address', addressRouter);
+        this.app.use('/patient', patientRouter);
     }
 
     start() {
