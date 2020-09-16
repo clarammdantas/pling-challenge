@@ -50,7 +50,17 @@ patientRouter.route('/addRecord/:patientId')
                                                                     prescription);
             res.status(200).send(newRecord);
         } catch (err) {
-            console.log(err);
+            res.status(500).send(err);
+        }
+    });
+
+patientRouter.route('/getByCPF/:cpf')
+    .get(async (req: Request, res: Response) => {
+        try {
+            const patient = await patientService.getPatientByCPF(req.params.cpf);
+
+            res.status(200).send(patient);
+        } catch (err) {
             res.status(500).send(err);
         }
     });
