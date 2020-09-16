@@ -1,0 +1,54 @@
+// Models
+import Patient from '../models/patient';
+
+// Types
+import AddressModel from '../interfaces/IAddress';
+import Schema from 'mongoose';
+
+// Services
+import addressService from './addressService';
+
+class PatientService {
+    private static instance: PatientService;
+
+    private constructor() {}
+
+    static getInstance() {
+        if (!PatientService.instance) {
+            PatientService.instance = new PatientService();
+        }
+
+        return PatientService.instance;
+    }
+
+    async createPatient(name: string, address: AddressModel, age: number, cpf: string,
+                        sex: number, profession: string, cellNumber: string) {
+        try {
+            // Create the address for this user.
+            const newAddress = await addressService.createAddress(address.street, address.district,
+                                                                  address.zipCode, address.number,
+                                                                  address.complement);
+
+            const newAddressId = newAddress._id;
+            // Makes all cpf be inserted as a string containing only digits to standardize
+            // the values for this property in the DB.
+            const standardCPF = cpf.replace(/\D/g, '');
+            const patient = new Patient({ name,
+                                          address: newAddressId,
+                                          age,
+                                          cpf: standardCPF,
+                                          sex,
+                                          profession,
+                                          cellNumber });
+            await patient.save();
+
+            return patient;
+        } catch (err) {
+            throw new Error(`Error while trying to create a Patient obj. Details: ${err}`);
+        }
+    }
+}
+
+const patientService = PatientService.getInstance();
+
+export default patientService;
