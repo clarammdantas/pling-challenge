@@ -3,10 +3,12 @@ import Patient from '../models/patient';
 
 // Types
 import AddressModel from '../interfaces/IAddress';
+// import PatientRecordModel from '../interfaces/IPatientRecords';
 import Schema from 'mongoose';
 
 // Services
 import addressService from './addressService';
+import patientRecordService from './patientRecordService';
 
 class PatientService {
     private static instance: PatientService;
@@ -45,6 +47,29 @@ class PatientService {
             return patient;
         } catch (err) {
             throw new Error(`Error while trying to create a Patient obj. Details: ${err}`);
+        }
+    }
+
+    async addPatientRecord(patientId: string, appointmentDate: Date, annotations: string,
+                           lastUpdate: Date, prescription: string) {
+        try {
+            const record = await patientRecordService.createPatientRecord(appointmentDate,
+                                                                          annotations,
+                                                                          prescription,
+                                                                          lastUpdate);
+            const recordId = record._id;
+            const patient = await Patient.findByIdAndUpdate(patientId, { $push: {records: recordId} }, function(err, res) {
+                if (err) {
+                    return new Error(`It wasn't possible to add record to patient ${patientId}`);
+                } else {
+                    return res;
+                }
+            });
+
+            return patient;
+        } catch (err) {
+            throw new Error(`Error while trying to add a new record in patient ${patientId}`);
+
         }
     }
 }

@@ -68,6 +68,11 @@ const PatientSchema = new Schema({
             },
             message: props => `${props.value} the street name is too long.`
         }
+    },
+    records: {
+        type: [Schema.Types.ObjectId],
+        required: false,
+        ref: 'PatientRecord'
     }
 });
 
@@ -87,7 +92,8 @@ interface IPatientSchema {
     cpf: string,
     sex: Gender,
     prefession: string,
-    cellNumber: string
+    cellNumber: string,
+    records: [Schema.Types.ObjectId]
 }
 
 interface IPatientBase extends IPatientSchema {

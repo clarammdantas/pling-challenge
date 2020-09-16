@@ -20,7 +20,7 @@ const PatientRecordSchema = new Schema({
     prescription: {
         type: String,
         selected: false,
-        required: false,
+        required: true,
         validate: {
             validator: function(v: string): boolean {
                 return v.length <= 200;
@@ -30,7 +30,7 @@ const PatientRecordSchema = new Schema({
     },
     lastUpdate: {
         type: Date,
-        required: false
+        required: true
     }
 });
 

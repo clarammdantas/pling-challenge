@@ -2,7 +2,7 @@
 import PatientRecord from '../models/patientRecord';
 
 class PatientRecordService {
-    private static instance;
+    private static instance: PatientRecordService;
 
     private constructor() {}
 
@@ -15,7 +15,7 @@ class PatientRecordService {
     }
 
     async createPatientRecord(appointmentDate: Date, annotations: string,
-                              prescription?: string, lastUpdate?: Date) {
+                              prescription: string, lastUpdate?: Date) {
 
         try {
             const patientRecord = new PatientRecord({appointmentDate,
@@ -30,3 +30,7 @@ class PatientRecordService {
         }
     }
 }
+
+const patientRecordService = PatientRecordService.getInstance();
+
+export default patientRecordService;
