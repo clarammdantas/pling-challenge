@@ -16,18 +16,15 @@ const express_1 = require("express");
 // Service
 const addressService_1 = __importDefault(require("../services/addressService"));
 const addressRouter = express_1.Router();
-const addressService = new addressService_1.default();
 addressRouter.route('/create')
     .post((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { street, district, zipCode, number, complement } = req.body;
-        const newAddress = yield addressService.createAddress(street, district, zipCode, number, complement);
-        res.send(newAddress);
-        res.sendStatus(200);
+        const newAddress = yield addressService_1.default.createAddress(street, district, zipCode, number, complement);
+        res.status(200).send(newAddress);
     }
     catch (err) {
-        res.send(err);
-        res.sendStatus(500);
+        res.status(500).send(err);
     }
 }));
 addressRouter.route('/update/:addressId')
@@ -35,25 +32,22 @@ addressRouter.route('/update/:addressId')
     try {
         const addressUpdate = req.body;
         const { addressId } = req.params;
-        const uptadedAddress = yield addressService.editAddress(addressId, addressUpdate);
-        res.send(uptadedAddress);
-        res.sendStatus(200);
+        const uptadedAddress = yield addressService_1.default.editAddress(addressId, addressUpdate);
+        res.status(200).send(uptadedAddress);
     }
     catch (err) {
-        res.send(err);
-        res.sendStatus(500);
+        res.status(500).send(err);
     }
 }));
 addressRouter.route('/get/:addressId')
     .get((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { addressId } = req.params;
-        const address = yield addressService.getAddress(addressId);
-        res.send(address);
+        const address = yield addressService_1.default.getAddress(addressId);
+        res.status(200).send(address);
     }
     catch (err) {
-        res.send(err);
-        res.sendStatus(500);
+        res.status(500).send(err);
     }
 }));
 exports.default = addressRouter;

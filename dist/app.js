@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const morgan_1 = __importDefault(require("morgan"));
 const addressRoutes_1 = __importDefault(require("./routes/addressRoutes"));
+const patientRoutes_1 = __importDefault(require("./routes/patientRoutes"));
 class Application {
     constructor() {
         this.app = express_1.default();
@@ -24,6 +25,7 @@ class Application {
     }
     routes() {
         this.app.use('/address', addressRoutes_1.default);
+        this.app.use('/patient', patientRoutes_1.default);
     }
     start() {
         this.app.listen(this.app.get('port'), (err) => {

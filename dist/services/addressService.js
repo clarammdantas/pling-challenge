@@ -15,6 +15,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // Models
 const address_1 = __importDefault(require("../models/address"));
 class AddressService {
+    constructor() { }
+    static getInstance() {
+        if (!AddressService.instance) {
+            AddressService.instance = new AddressService();
+        }
+        return AddressService.instance;
+    }
     createAddress(street, district, zipCode, number, complement) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -66,4 +73,5 @@ class AddressService {
         });
     }
 }
-exports.default = AddressService;
+const addressService = AddressService.getInstance();
+exports.default = addressService;
