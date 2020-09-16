@@ -48,6 +48,10 @@ const AddressSchema = new mongoose_1.Schema({
             },
             message: props => `${props.value} the district name is too long.`
         }
+    },
+    patient: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: 'Patient'
     }
 });
-exports.default = mongoose_1.model('Adrress', AddressSchema);
+exports.default = mongoose_1.model('Address', AddressSchema);
