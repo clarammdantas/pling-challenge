@@ -31,6 +31,10 @@ const PatientRecordSchema = new Schema({
     lastUpdate: {
         type: Date,
         required: true
+    },
+    patient: {
+        type: Schema.Types.ObjectId,
+        ref: 'Patient'
     }
 });
 

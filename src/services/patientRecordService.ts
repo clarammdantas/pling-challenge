@@ -15,13 +15,14 @@ class PatientRecordService {
     }
 
     async createPatientRecord(appointmentDate: Date, annotations: string,
-                              prescription: string, lastUpdate?: Date) {
+                              prescription: string, patientId: string, lastUpdate?: Date) {
 
         try {
             const patientRecord = new PatientRecord({appointmentDate,
                                                      annotations,
                                                      prescription,
-                                                     lastUpdate});
+                                                     lastUpdate,
+                                                     patient: patientId});
             await patientRecord.save();
 
             return patientRecord;

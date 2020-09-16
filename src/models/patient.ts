@@ -1,5 +1,4 @@
 import { Schema, Document, model } from 'mongoose';
-import Address from './address';
 
 const PatientSchema = new Schema({
     name: {
@@ -69,12 +68,12 @@ const PatientSchema = new Schema({
             message: props => `${props.value} the street name is too long.`
         }
     },
-    records: {
-        type: [Schema.Types.ObjectId],
+    records: [{
+        type: Schema.Types.ObjectId,
         required: false,
         selected: false,
         ref: 'PatientRecord'
-    }
+    }]
 });
 
 enum Gender {

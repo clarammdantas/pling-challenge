@@ -49,7 +49,11 @@ const AddressSchema = new Schema({
             },
             message: props => `${props.value} the district name is too long.`
         }
+    },
+    patient: {
+        type: Schema.Types.ObjectId,
+        ref: 'Patient'
     }
 });
 
-export default model<AddressModel & Document>('Adrress', AddressSchema);
+export default model<AddressModel & Document>('Address', AddressSchema);
