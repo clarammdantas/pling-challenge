@@ -2,13 +2,13 @@
 import Patient from '../models/patient';
 
 // Types
-import AddressModel from '../interfaces/IAddress';
-// import PatientRecordModel from '../interfaces/IPatientRecords';
-import Schema from 'mongoose';
+import AddressModel, { AddressUpdate } from '../interfaces/IAddress';
 
 // Services
 import addressService from './addressService';
 import patientRecordService from './patientRecordService';
+
+const ELEM_PER_PAGE = 3;
 
 class PatientService {
     private static instance: PatientService;
@@ -43,6 +43,9 @@ class PatientService {
                                           profession,
                                           cellNumber });
             await patient.save();
+            const patientId = patient._id;
+            const addressUpdate: AddressUpdate = {patient: patientId}
+            await addressService.editAddress(newAddressId, addressUpdate);
 
             return patient;
         } catch (err) {
@@ -56,15 +59,12 @@ class PatientService {
             const record = await patientRecordService.createPatientRecord(appointmentDate,
                                                                           annotations,
                                                                           prescription,
+                                                                          patientId,
                                                                           lastUpdate);
             const recordId = record._id;
-            const patient = await Patient.findByIdAndUpdate(patientId, { $push: {records: recordId} }, function(err, res) {
-                if (err) {
-                    return new Error(`It wasn't possible to add record to patient ${patientId}`);
-                } else {
-                    return res;
-                }
-            });
+            const patient = await Patient.findById(patientId);
+            patient!.records.push(recordId);
+            await patient!.save();
 
             return patient;
         } catch (err) {
@@ -76,13 +76,29 @@ class PatientService {
     async getPatientByCPF(cpf: string) {
         try {
             const standardCPF = cpf.replace(/\D/g, '');
-            const patient = await Patient.find({cpf: standardCPF})
+            const patient = await Patient.findOne({cpf: standardCPF})
+                                         .populate('address')
+                                         .populate('records')
                                          .select('+cpf +cellNumber +records')
                                          .exec();
 
             return patient;
         } catch {
             throw new Error(`A patient with CPF ${cpf} wasn't found.`);
+        }
+    }
+
+    async listPatients(page: number) {
+        try {
+            const patientPage = await Patient.find({})
+                                             .select('+cpf')
+                                             .populate('records')
+                                             .populate('address')
+                                             .skip((ELEM_PER_PAGE * page) - ELEM_PER_PAGE)
+                                             .limit(ELEM_PER_PAGE);
+            return patientPage;
+        } catch (err) {
+            throw new Error('Error while listing patients.');
         }
     }
 }

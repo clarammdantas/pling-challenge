@@ -2,7 +2,6 @@ import { Router, Request, Response } from 'express';
 
 // Service
 import patientService from '../services/patientService';
-import patientRecordService from '../services/patientRecordService';
 
 // Types
 import AddressModel from '../interfaces/IAddress';
@@ -60,6 +59,18 @@ patientRouter.route('/getByCPF/:cpf')
             const patient = await patientService.getPatientByCPF(req.params.cpf);
 
             res.status(200).send(patient);
+        } catch (err) {
+            res.status(500).send(err);
+        }
+    });
+
+patientRouter.route('/list/:page')
+    .get(async (req: Request, res: Response) => {
+        try {
+            const page = Number(req.params.page);
+            const patients = await patientService.listPatients(page);
+
+            res.status(200).send(patients);
         } catch (err) {
             res.status(500).send(err);
         }
