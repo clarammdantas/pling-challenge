@@ -66,7 +66,13 @@ const PatientSchema = new mongoose_1.Schema({
             },
             message: props => `${props.value} the street name is too long.`
         }
-    }
+    },
+    records: [{
+            type: mongoose_1.Schema.Types.ObjectId,
+            required: false,
+            selected: false,
+            ref: 'PatientRecord'
+        }]
 });
 var Gender;
 (function (Gender) {

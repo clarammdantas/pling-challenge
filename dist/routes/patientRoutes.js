@@ -28,4 +28,38 @@ patientRouter.route('/create')
         res.status(500).send(err);
     }
 }));
+patientRouter.route('/addRecord/:patientId')
+    .patch((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const appointmentDate = new Date();
+        const lastUpdate = new Date();
+        const { annotations, prescription, } = req.body;
+        const newRecord = yield patientService_1.default.addPatientRecord(req.params.patientId, appointmentDate, annotations, lastUpdate, prescription);
+        res.status(200).send(newRecord);
+    }
+    catch (err) {
+        res.status(500).send(err);
+    }
+}));
+patientRouter.route('/getByCPF/:cpf')
+    .get((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const patient = yield patientService_1.default.getPatientByCPF(req.params.cpf);
+        res.status(200).send(patient);
+    }
+    catch (err) {
+        res.status(500).send(err);
+    }
+}));
+patientRouter.route('/list/:page')
+    .get((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const page = Number(req.params.page);
+        const patients = yield patientService_1.default.listPatients(page);
+        res.status(200).send(patients);
+    }
+    catch (err) {
+        res.status(500).send(err);
+    }
+}));
 exports.default = patientRouter;

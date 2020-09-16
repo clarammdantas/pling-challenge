@@ -29,7 +29,7 @@ class AddressService {
                     street,
                     district,
                     zipCode,
-                    number,
+                    number
                 };
                 if (complement) {
                     addressData.complement = complement;

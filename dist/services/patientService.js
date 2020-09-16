@@ -16,6 +16,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const patient_1 = __importDefault(require("../models/patient"));
 // Services
 const addressService_1 = __importDefault(require("./addressService"));
+const patientRecordService_1 = __importDefault(require("./patientRecordService"));
+const ELEM_PER_PAGE = 3;
 class PatientService {
     constructor() { }
     static getInstance() {
@@ -41,10 +43,60 @@ class PatientService {
                     profession,
                     cellNumber });
                 yield patient.save();
+                const patientId = patient._id;
+                const addressUpdate = { patient: patientId };
+                yield addressService_1.default.editAddress(newAddressId, addressUpdate);
                 return patient;
             }
             catch (err) {
                 throw new Error(`Error while trying to create a Patient obj. Details: ${err}`);
+            }
+        });
+    }
+    addPatientRecord(patientId, appointmentDate, annotations, lastUpdate, prescription) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const record = yield patientRecordService_1.default.createPatientRecord(appointmentDate, annotations, prescription, patientId, lastUpdate);
+                const recordId = record._id;
+                const patient = yield patient_1.default.findById(patientId);
+                patient.records.push(recordId);
+                yield patient.save();
+                return patient;
+            }
+            catch (err) {
+                throw new Error(`Error while trying to add a new record in patient ${patientId}`);
+            }
+        });
+    }
+    getPatientByCPF(cpf) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const standardCPF = cpf.replace(/\D/g, '');
+                const patient = yield patient_1.default.findOne({ cpf: standardCPF })
+                    .populate('address')
+                    .populate('records')
+                    .select('+cpf +cellNumber +records')
+                    .exec();
+                return patient;
+            }
+            catch (_a) {
+                throw new Error(`A patient with CPF ${cpf} wasn't found.`);
+            }
+        });
+    }
+    listPatients(page) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const patientPage = yield patient_1.default.find({})
+                    .select('+cpf')
+                    .populate('records')
+                    .populate('address')
+                    .skip((ELEM_PER_PAGE * page) - ELEM_PER_PAGE)
+                    .limit(ELEM_PER_PAGE);
+                return patientPage;
+            }
+            catch (err) {
+                throw new Error('Error while listing patients.');
             }
         });
     }
