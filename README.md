@@ -33,6 +33,7 @@ tests in Postman.
 
 ### Create a paient
 
+POST
 /patient/create
 
 ```json
@@ -55,6 +56,7 @@ tests in Postman.
 
 ### Add a record to a patient
 
+PATCH
 /patient/addRecord/:patienId
 
 ```json
@@ -69,14 +71,38 @@ tests in Postman.
 We implemented the listing with pagination, so you neeed to provide a page in
 the query.
 
+GET
 /patient/list/:page
 
 ### Get patient by CPF
 
+GET
 /patient/getByCPF/:cpf
 
 The CPF can be given in any form as long as it has the correct number. We use
 a regex in the backend to standardize the CPF and thus do the query correctly.
+
+### Update patient
+
+PATCH
+/patient/edit/:patientId
+
+```json
+{
+    "name": "Joana Machado",
+    "age": 20
+}
+```
+
+### Delete patient
+
+DELETE
+/patient/delete/:patientId
+
+### Get total number of pages
+
+GET
+/patient/getTotalPages
 
 ## Running the project
 
