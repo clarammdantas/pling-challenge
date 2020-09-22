@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const morgan_1 = __importDefault(require("morgan"));
+const cors_1 = __importDefault(require("cors"));
 const addressRoutes_1 = __importDefault(require("./routes/addressRoutes"));
 const patientRoutes_1 = __importDefault(require("./routes/patientRoutes"));
 class Application {
@@ -22,6 +23,8 @@ class Application {
         this.app.use(morgan_1.default('dev'));
         this.app.use(express_1.default.json());
         this.app.use(express_1.default.urlencoded({ extended: false }));
+        this.app.use(cors_1.default());
+        this.app.options('*', cors_1.default());
     }
     routes() {
         this.app.use('/address', addressRoutes_1.default);

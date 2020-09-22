@@ -1,5 +1,6 @@
 import express from 'express';
 import morgan from 'morgan';
+import cors from 'cors';
 
 import addressRouter from './routes/addressRoutes';
 import patientRouter from './routes/patientRoutes';
@@ -23,6 +24,8 @@ class Application {
         this.app.use(morgan('dev'));
         this.app.use(express.json());
         this.app.use(express.urlencoded({ extended: false }));
+        this.app.use(cors());
+        this.app.options('*', cors());
     }
 
     routes() {

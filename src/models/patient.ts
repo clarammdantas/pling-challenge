@@ -60,10 +60,9 @@ const PatientSchema = new Schema({
         selected: false,
         validate: {
             validator: function(v: string): boolean {
-                const regex1 = /(\d{2}) \d{5}-\d{4}/;
-                const regex2 = /\d{11}/;
+                const regex1 = /^[\+]?[(]?[0-9]{2}[)]?[-\s\.]?[0-9]{5}[-\s\.]?[0-9]{4}$/;
 
-                return regex1.test(v) || regex2.test(v);
+                return regex1.test(v);
             },
             message: props => `${props.value} the street name is too long.`
         }

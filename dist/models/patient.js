@@ -60,9 +60,8 @@ const PatientSchema = new mongoose_1.Schema({
         selected: false,
         validate: {
             validator: function (v) {
-                const regex1 = /(\d{2}) \d{5}-\d{4}/;
-                const regex2 = /\d{11}/;
-                return regex1.test(v) || regex2.test(v);
+                const regex1 = /^[\+]?[(]?[0-9]{2}[)]?[-\s\.]?[0-9]{5}[-\s\.]?[0-9]{4}$/;
+                return regex1.test(v);
             },
             message: props => `${props.value} the street name is too long.`
         }

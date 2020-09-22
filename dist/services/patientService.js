@@ -17,7 +17,7 @@ const patient_1 = __importDefault(require("../models/patient"));
 // Services
 const addressService_1 = __importDefault(require("./addressService"));
 const patientRecordService_1 = __importDefault(require("./patientRecordService"));
-const ELEM_PER_PAGE = 3;
+const ELEM_PER_PAGE = 5;
 class PatientService {
     constructor() { }
     static getInstance() {
@@ -68,6 +68,38 @@ class PatientService {
             }
         });
     }
+    editPatient(patientId, patientToUpdate) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const patient = yield patient_1.default.findByIdAndUpdate(patientId, patientToUpdate, function (err, result) {
+                    if (err) {
+                        return new Error(`Error while updating patient with id ${patientId}. Error: ${err}`);
+                    }
+                    else {
+                        return result;
+                    }
+                });
+                return patient;
+            }
+            catch (err) {
+                throw new Error(`Error while trying to update patient ${patientId}`);
+            }
+        });
+    }
+    deletePatient(patientId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const patient = yield patient_1.default.findById(patientId);
+                if (patient) {
+                    yield addressService_1.default.deleteAddress(patient.address.toString());
+                }
+                yield patient_1.default.deleteOne({ _id: patientId });
+            }
+            catch (err) {
+                throw new Error(`Error while trying to delete patient ${patientId}`);
+            }
+        });
+    }
     getPatientByCPF(cpf) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -81,6 +113,17 @@ class PatientService {
             }
             catch (_a) {
                 throw new Error(`A patient with CPF ${cpf} wasn't found.`);
+            }
+        });
+    }
+    getTotalPages() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const total_patients = yield patient_1.default.find({}).count();
+                return Math.ceil(total_patients / ELEM_PER_PAGE);
+            }
+            catch (err) {
+                throw new Error('Error while counting total pages.');
             }
         });
     }

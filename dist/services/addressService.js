@@ -43,6 +43,16 @@ class AddressService {
             }
         });
     }
+    deleteAddress(addressId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                address_1.default.deleteOne({ _id: addressId });
+            }
+            catch (err) {
+                throw new Error(`Error while tying to delete an Address obj. Details: ${err}`);
+            }
+        });
+    }
     editAddress(addressId, attrsToUpdate) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
