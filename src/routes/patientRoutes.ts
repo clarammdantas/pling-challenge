@@ -64,6 +64,17 @@ patientRouter.route('/getByCPF/:cpf')
         }
     });
 
+patientRouter.route('/getTotalPages')
+    .get(async (req: Request, res: Response) => {
+        try {
+            const total_pages = await patientService.getTotalPages();
+
+            res.status(200).json({total_pages: total_pages});
+        }  catch (err) {
+            res.status(500).send(err);
+        }
+    })
+
 patientRouter.route('/list/:page')
     .get(async (req: Request, res: Response) => {
         try {

@@ -88,6 +88,16 @@ class PatientService {
         }
     }
 
+    async getTotalPages() {
+        try {
+            const total_patients = await Patient.find({}).count();
+
+            return Math.ceil(total_patients / ELEM_PER_PAGE);
+        } catch (err) {
+            throw new Error('Error while counting total pages.');
+        }
+    }
+
     async listPatients(page: number) {
         try {
             const patientPage = await Patient.find({})

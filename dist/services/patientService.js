@@ -84,6 +84,17 @@ class PatientService {
             }
         });
     }
+    getTotalPages() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const total_patients = yield patient_1.default.find({}).count();
+                return Math.ceil(total_patients / ELEM_PER_PAGE);
+            }
+            catch (err) {
+                throw new Error('Error while counting total pages.');
+            }
+        });
+    }
     listPatients(page) {
         return __awaiter(this, void 0, void 0, function* () {
             try {

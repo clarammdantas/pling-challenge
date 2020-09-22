@@ -51,6 +51,16 @@ patientRouter.route('/getByCPF/:cpf')
         res.status(500).send(err);
     }
 }));
+patientRouter.route('/getTotalPages')
+    .get((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const total_pages = yield patientService_1.default.getTotalPages();
+        res.status(200).json({ total_pages: total_pages });
+    }
+    catch (err) {
+        res.status(500).send(err);
+    }
+}));
 patientRouter.route('/list/:page')
     .get((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
