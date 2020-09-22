@@ -17,7 +17,7 @@ const AddressSchema = new Schema({
         required: true,
         validate: {
             validator: function(v: string): boolean {
-                return v.length <= 25;
+                return v.length <= 50;
             },
             message: props => `${props.value} the district name is too long.`
         }
@@ -45,7 +45,7 @@ const AddressSchema = new Schema({
         required: false,
         validate: {
             validator: function(v: string): boolean {
-                return v.length <= 30;
+                return v.length <= 150;
             },
             message: props => `${props.value} the district name is too long.`
         }
