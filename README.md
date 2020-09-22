@@ -104,6 +104,7 @@ DELETE
 GET
 /patient/getTotalPages
 
+
 ## Running the project
 
 You can run the linters by typing:

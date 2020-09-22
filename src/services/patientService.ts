@@ -9,6 +9,7 @@ import IPatientUpdate from '../interfaces/IPatient'
 import addressService from './addressService';
 import patientRecordService from './patientRecordService';
 
+
 const ELEM_PER_PAGE = 5;
 
 class PatientService {
