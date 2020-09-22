@@ -10,6 +10,8 @@ const patientRouter = Router();
 
 patientRouter.route('/create')
     .post(async (req: Request, res: Response) => {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         try {
             const {
                 name,
