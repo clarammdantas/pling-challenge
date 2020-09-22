@@ -41,6 +41,28 @@ patientRouter.route('/addRecord/:patientId')
         res.status(500).send(err);
     }
 }));
+patientRouter.route('/edit/:patientId')
+    .patch((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const patientId = req.params.patientId;
+        const patientToUpdate = req.body;
+        const updatedPatient = yield patientService_1.default.editPatient(patientId, patientToUpdate);
+        res.status(200).json(updatedPatient);
+    }
+    catch (err) {
+        res.status(500).json({ err: err });
+    }
+}));
+patientRouter.route('/delete/:patientId')
+    .delete((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield patientService_1.default.deletePatient(req.params.patientId);
+        res.status(200).json({ "req_status": "obj deleted." });
+    }
+    catch (err) {
+        res.status(500).json({ err: err });
+    }
+}));
 patientRouter.route('/getByCPF/:cpf')
     .get((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {

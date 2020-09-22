@@ -40,6 +40,14 @@ class AddressService {
         }
     }
 
+    async deleteAddress(addressId: string) {
+        try {
+            Address.deleteOne({_id: addressId});
+        } catch (err) {
+            throw new Error(`Error while tying to delete an Address obj. Details: ${err}`);
+        }
+    }
+
     async editAddress(addressId: string, attrsToUpdate: AddressUpdate) {
         try {
             const address = await Address.findByIdAndUpdate(addressId, attrsToUpdate, function(err, result) {

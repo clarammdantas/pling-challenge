@@ -68,6 +68,38 @@ class PatientService {
             }
         });
     }
+    editPatient(patientId, patientToUpdate) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const patient = yield patient_1.default.findByIdAndUpdate(patientId, patientToUpdate, function (err, result) {
+                    if (err) {
+                        return new Error(`Error while updating patient with id ${patientId}. Error: ${err}`);
+                    }
+                    else {
+                        return result;
+                    }
+                });
+                return patient;
+            }
+            catch (err) {
+                throw new Error(`Error while trying to update patient ${patientId}`);
+            }
+        });
+    }
+    deletePatient(patientId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const patient = yield patient_1.default.findById(patientId);
+                if (patient) {
+                    yield addressService_1.default.deleteAddress(patient.address.toString());
+                }
+                yield patient_1.default.deleteOne({ _id: patientId });
+            }
+            catch (err) {
+                throw new Error(`Error while trying to delete patient ${patientId}`);
+            }
+        });
+    }
     getPatientByCPF(cpf) {
         return __awaiter(this, void 0, void 0, function* () {
             try {

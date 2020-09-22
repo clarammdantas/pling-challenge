@@ -3,6 +3,7 @@ import Patient from '../models/patient';
 
 // Types
 import AddressModel, { AddressUpdate } from '../interfaces/IAddress';
+import IPatientUpdate from '../interfaces/IPatient'
 
 // Services
 import addressService from './addressService';
@@ -70,6 +71,34 @@ class PatientService {
         } catch (err) {
             throw new Error(`Error while trying to add a new record in patient ${patientId}`);
 
+        }
+    }
+
+    async editPatient(patientId: string, patientToUpdate: IPatientUpdate) {
+        try {
+            const patient = await Patient.findByIdAndUpdate(patientId, patientToUpdate, function(err, result) {
+                if (err) {
+                    return new Error(`Error while updating patient with id ${patientId}. Error: ${err}`);
+                } else {
+                    return result;
+                }
+            });
+
+            return patient;
+        } catch (err) {
+            throw new Error(`Error while trying to update patient ${patientId}`);
+        }
+    }
+
+    async deletePatient(patientId: string) {
+        try {
+            const patient = await Patient.findById(patientId);
+            if (patient) {
+                await addressService.deleteAddress(patient.address.toString());
+            }
+            await Patient.deleteOne({ _id: patientId });
+        } catch (err) {
+            throw new Error(`Error while trying to delete patient ${patientId}`);
         }
     }
 
