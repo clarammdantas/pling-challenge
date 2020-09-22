@@ -8,7 +8,7 @@ import AddressModel, { AddressUpdate } from '../interfaces/IAddress';
 import addressService from './addressService';
 import patientRecordService from './patientRecordService';
 
-const ELEM_PER_PAGE = 10;
+const ELEM_PER_PAGE = 5;
 
 class PatientService {
     private static instance: PatientService;

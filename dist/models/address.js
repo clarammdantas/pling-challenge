@@ -17,7 +17,7 @@ const AddressSchema = new mongoose_1.Schema({
         required: true,
         validate: {
             validator: function (v) {
-                return v.length <= 25;
+                return v.length <= 50;
             },
             message: props => `${props.value} the district name is too long.`
         }
@@ -44,7 +44,7 @@ const AddressSchema = new mongoose_1.Schema({
         required: false,
         validate: {
             validator: function (v) {
-                return v.length <= 30;
+                return v.length <= 150;
             },
             message: props => `${props.value} the district name is too long.`
         }

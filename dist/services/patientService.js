@@ -17,7 +17,7 @@ const patient_1 = __importDefault(require("../models/patient"));
 // Services
 const addressService_1 = __importDefault(require("./addressService"));
 const patientRecordService_1 = __importDefault(require("./patientRecordService"));
-const ELEM_PER_PAGE = 10;
+const ELEM_PER_PAGE = 5;
 class PatientService {
     constructor() { }
     static getInstance() {
